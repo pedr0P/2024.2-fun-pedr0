@@ -1,0 +1,15 @@
+c++
+Java
+C#
+C
+Fortran
+JS
+Python
+Rust
+
+Lisp
+Clojave
+Scala
+
+Funcional: Standard ML, Haskell, Agda, Lean, Ldris
+Lógica: Prolog, Datalogo, (lambda)Prolog
