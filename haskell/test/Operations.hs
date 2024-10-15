@@ -23,3 +23,13 @@ fib :: Nat -> Nat
 fib O = S O
 fib (S O) = S O
 fib (S (S n)) = fib n `plus` fib (S n)
+
+sub :: Nat -> Nat -> Nat
+sub n O = n
+sub O m = m
+sub (S n) (S m) = sub n m
+
+diva :: Nat -> Nat -> Nat
+diva O n = O
+diva n m = S (diva (sub n m) m)
+
