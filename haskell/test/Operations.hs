@@ -32,9 +32,9 @@ fib O = S O
 fib (S O) = S O
 fib (S (S n)) = fib n `plus` fib (S n)
 
--- diva :: Nat -> Nat -> Nat
--- diva O n = O
--- diva n m = S (diva (sub n m) m)
+-- div :: Nat -> Nat -> Nat
+-- div O n = O
+-- div n m = S (diva (sub n m) m)
 
 min :: Nat -> Nat -> Nat
 min _ O = O
