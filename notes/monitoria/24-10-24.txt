@@ -1,0 +1,59 @@
+ϑ. (∀ n,m)[ n+m=m+n ]
+Demonstração:
+--/
+Seja n : Nat
+Indução.
+Base:
+    Calculamos:
+    n + 0
+        = n [(+).1 n]
+    0 + n
+        = n [(+)-IdL n]
+P.I:
+    Seja k t.q. n + k = k + n (hi)
+    -- n + (S k) = (S k) + n
+    Calculamos:
+        n + (S k)
+            = S (n + k) [(+).2 n k]
+            = S (k + n) [(hi)]
+        (S k) + n
+            = S (k + n) [(+)-SuccL k n]
+
+
+--//
+Lemmata:
+(+)-IdL: (∀ n)[0 + n = n]
+--/
+Indução.
+Base:
+    Calc: 0 + 0
+        = 0 [(+).1 0]
+P.I: -- (∀ k)[ 0 + k = k ⇒ 0 + (S k) = (S k)] 
+    Seja k t.q. 0 + k = k (hi)
+    Calc:
+        0 + (S k)
+            = S ( 0 + k )               [(+).2 0 k]
+            = S k (hi)
+---//
+(+)-SuccL: (∀ n,m)[(S n) + m = S (n + m)]
+--/
+Seja n: Nat
+Indução:
+Base:
+    Calc:
+    (S n) + 0
+        = 0                             [(+).1 (S n)]
+    S (n + 0)
+        = S n                           [(+).1 n]
+P.I:
+-- Alvo: (∀ n)[(S n) + k = S (n + k) ⇒ (S n) + (S k) = S (n + k)]
+    Seja k t.q (S n) + l = S (n + k) (hi)
+    Calc:
+        (S n) + (S k)
+            = S ( (S n) + k ) [(+).2 (S n) k]
+            = S ( S ( n + k ) ) [(hi)]
+            = S ( n + (S k) )
+        S ( n + (S k)) = S ( S ( n + k))    [(+).2 n k]
+--//
+
+
