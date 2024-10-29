@@ -58,28 +58,33 @@ write [u,v]     for our u `Cons` (v `Cons` Nil)
 -}
 
 head :: [a] -> a
-head = undefined
+head (x:xs) = x
 
 tail :: [a] -> [a]
-tail = undefined
+tail (x:xs) = xs
 
 null :: [a] -> Bool
-null = undefined
+null [] = True
+null _ = False
 
 length :: Integral i => [a] -> i
 length = undefined
 
 sum :: Num a => [a] -> a
-sum = undefined
+sum [] = 0
+sum (x:xs) = x + sum xs
 
 product :: Num a => [a] -> a
-product = undefined
-
-reverse :: [a] -> [a]
-reverse = undefined
+product [] = 1
+product (x:xs) = x * product xs
 
 (++) :: [a] -> [a] -> [a]
-(++) = undefined
+(++) n [] = n
+(++) [] m = m
+(++) (x:xs) (y:ys) = (++) xs ys
+reverse :: [a] -> [a]
+reverse (x:xs) = [x]
+
 
 -- right-associative for performance!
 -- (what?!)
