@@ -128,7 +128,7 @@ odd (S (S n)) = odd n
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
-(<%>) = undefined
+(<%>)  = 
 
 -- divides
 (<|>) :: Nat -> Nat -> Bool
