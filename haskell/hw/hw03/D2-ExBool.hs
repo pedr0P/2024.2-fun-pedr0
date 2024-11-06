@@ -18,7 +18,7 @@ import Prelude
     , otherwise
     )
 
--- Define evenerything that is undefined,
+-- Define everything that is undefined,
 -- without using standard Haskell functions.
 -- (Hint: recursion is your friend!)
 
