@@ -43,6 +43,8 @@ three = S two
 four = S three
 five = S four
 six = S five
+seven = S six
+eight = S seven
     -- zero  should be shown as O
     -- three should be shown as SSSO
 
@@ -123,24 +125,28 @@ odd (S (S n)) = odd n
 
 -- quotient
 (</>) :: Nat -> Nat -> Nat
-(</>) O n = O
-(</>) n m = S ((</>) ((<->) n m) m)
+(</>) n O = error "Division by zero"
+-- (</>) (S n) (S m) 
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
-(<%>)  = 
+(<%>)  = undefined
 
 -- divides
-(<|>) :: Nat -> Nat -> Bool
-(<|>) = undefined
-
-divides = (<|>)
+-- (<|>) :: Nat -> Nat -> Bool
+-- (<|>) O _ = error "Divisão por 0"
+-- (<|>) n m = error "Divisão por 0"
 
 
 -- x `absDiff` y = |x - y|
 -- (Careful here: this - is the real minus operator!)
 absDiff :: Nat -> Nat -> Nat
-absDiff = undefined
+absDiff n 0 = n;
+absDiff 0 n = n;
+absDiff (S n) (S m) = S (absDiff n m)
+
+-- 3 - 1
+-- S ( 2 - 0 )
 
 (|-|) = absDiff
 
@@ -152,10 +158,14 @@ factorial (S n) = (<+>) (S n) (factorial n)
 sg :: Nat -> Nat
 sg = undefined
 
--- lo b a is the floor of the logarithm base b of a
-lo :: Nat -> Nat -> Nat
-lo = undefined
+ite :: Bool -> a -> a -> a
+ite False _ m = m
+ite True n _ = n
 
+-- lo b a is the floor of the logarithm base b of a
+-- lo :: Nat -> Nat -> Nat
+-- lo O O = O
+-- lo _ O = error "Impossible"
 
 ----------------------------------------------------------------
 -- Num & Integral fun
@@ -165,10 +175,17 @@ lo = undefined
 -- Do NOT use the following functions in the definitions above!
 
 toNat :: Integral a => a -> Nat
-toNat = undefined
+-- toNat = undefined
+toNat x
+    | x <= 0 = O
+    | otherwise = S (toNat (x-1))
+
 
 fromNat :: Integral a => Nat -> a
-fromNat = undefined
+-- fromNat = undefined
+fromNat n
+    | n == O = 0
+    | otherwise = 1 + fromNat ((<->) n (S O))
 
 
 -- Voilá: we can now easily make Nat an instance of Num.

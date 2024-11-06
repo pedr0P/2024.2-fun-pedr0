@@ -68,7 +68,8 @@ null [] = True
 null _ = False
 
 length :: Integral i => [a] -> i
-length = undefined
+length [] = 0
+length (x:xs) = 1 + (length xs)
 
 sum :: Num a => [a] -> a
 sum [] = 0
@@ -80,11 +81,11 @@ product (x:xs) = x * product xs
 
 reverse :: [a] -> [a]
 reverse [n] = [n]
-reverse (x:xs) = snoc (reverse xs) x
+reverse (x:xs) = reverse xs<:x
 
 (++) :: [a] -> [a] -> [a]
-(++) (x:xs) [] = x:xs
-(++) 
+(++) [] xs = xs
+(++) (x:xs) ys = x:(++) xs ys
 
 -- right-associative for performance!
 -- (what?!)
@@ -92,7 +93,8 @@ infixr 5 ++
 
 -- (snoc is cons written backwards)
 snoc :: a -> [a] -> [a]
-snoc = undefined
+snoc x [] = [x]
+snoc x xs = x:xs
 
 (<:) :: [a] -> a -> [a]
 (<:) = flip snoc

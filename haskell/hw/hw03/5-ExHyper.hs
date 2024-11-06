@@ -43,17 +43,18 @@ exp n (S m) = mul (exp n m) n
 -- to define each of those functions:
 
 add :: Nat -> Nat -> Nat
-add = hyper undefined
+add = hyper 0
 
 mul :: Nat -> Nat -> Nat
-mul = hyper undefined
+mul = hyper 1
 
 exp :: Nat -> Nat -> Nat
-exp = hyper undefined
+exp = hyper 2
 
 -- hyper n should return the n'th operation in the sequence:
 -- (..?..), add, mul, exp, ...?
 
 hyper :: Integral i => i -> (Nat -> Nat -> Nat)
-hyper = undefined
+-- hyper = undefined
+
 
