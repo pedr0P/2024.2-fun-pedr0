@@ -1,0 +1,51 @@
+Operations → add, times, exp, quotient, rem
+
+List → len, index, map, filter, sum, product
+
+
+(f ∘ g) x = f (g x)
+
+ϑ. (∀ f: α → β ) [len ∘ map f = len]
+    ≡ Same thing as: len (map f l) = len l
+
+
+Seja f : α → β.
+# (∀ l : L α)[(len ∘ map f)l = len l]
+
+Seja l : L α.
+# (len ∘ map f)l = len l
+
+
+Ind.
+  Base []:
+    Calc:
+        (len ∘ map f)
+            = [ (∘).1 f ≔ len g, g ≔ map f, x ≔ [] ]
+        len (map f [])
+            = [ map.1 ]
+        len [].
+
+  P.I (k:ks):
+    Sejam k, ks t.q. len (map f ks) = len ks. (hi)
+    # len (map f (k::(S k))) = len (k::(S k))
+    Calc:
+        (len ∘ map f)
+            = [ (∘).1 f ≔ len g, g ≔ map f, x ≔ ks]
+        len (map f k::ks)
+            = [ map.2 f ≔ f, ≔ k::ks]
+        len (f k::map f ks)
+            = [ len.2 ]
+        S ( len (map f ks))
+            = [ (hi) ]
+        S ( len ks ).
+        
+        len (k :: ks)
+            = [len.2]
+        S (len ks)
+
+(len ∘ map f) l
+        = [(∘).1 f ≔ len g, g ≔ map f, x ≔ l]
+      len (map f l)
+        = 
+
+

@@ -1,0 +1,20 @@
+Zip :: List α -> List β -> List (α × β)
+ZipWith :: (α -> β -> γ) -> List α -> List β -> List γ
+
+1. Zip = ZipWith (,)
+
+2. ZipWith f as
+ = map (uncurry f) ∘ zip as
+   --------------   ------- 
+       L(α×β)
+
+or
+
+ = curry (map (uncurry f) ∘ (uncurry zip))
+          --------------     -----------  
+           L(α×β) -> Lγ     Lα×Lβ -> L(α×β)
+
+
+
+Also:
+    (∘) : (β -> γ) -> (α -> β) -> (α -> γ)
