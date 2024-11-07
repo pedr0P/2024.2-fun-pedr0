@@ -82,8 +82,8 @@ zip :: [a] -> [b] -> [(a, b)]
 zip (n:ns) (m:ms) = (n, m):zip ns ms
 zip _ _ = []
 
-zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-zipWith f (n:ns) (m:ms) = (f n m, zipWith f head ns ms)
+-- zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+-- zipWith f (n:ns) (m:ms) = (f n m, zipWith f head ns ms)
 
 
 zip' = zipWith' (,)
