@@ -55,6 +55,6 @@ exp = hyper 2
 -- (..?..), add, mul, exp, ...?
 
 hyper :: Integral i => i -> (Nat -> Nat -> Nat)
--- hyper = undefined
+hyper = undefined
 
 

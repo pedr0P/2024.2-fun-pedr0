@@ -160,7 +160,13 @@ infixl 5 +++
 -- what is the problem with the following?:
 -- splitAt n xs  =  (take n xs, drop n xs)
 
+-- [1,3,5,2,4,6]
+-- [1,3,5] [2,4,6]
+
 -- break
+-- break :: (a -> Bool) -> [a] -> ([a], [a])
+-- break _ [] = ([], [])
+-- break p (x::xs)
 
 -- lines
 -- words
