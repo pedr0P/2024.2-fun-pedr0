@@ -124,8 +124,9 @@ def isLst : Nat → Nat → Bool
 #eval isLst (S (S (S O))) (S O)
 
 -- (==)
-def isEq : α → α
-  | _ => sorry
+def isEq : Nat → Nat → Bool
+  | n n => T
+  | _ _ => F
 
 #eval isEq O (S (S O))
 #eval isEq (S O) (S O)
