@@ -1,42 +1,43 @@
+import FMCnLean.Rec.IndGame.Lv1
+-- Se teu outro arquivo compilou,
+-- talvez tu precise usar Ctrl + Shift + P : Restart File
+
+namespace Lv1
+open Nat
+
 -- A Lv based on ListNat game, made by Isaac:
 -- https://github.com/isaacmsl/ListNatGame/blob/main/ListNatGame.lean
 ---------------------------------------------------------------------
 
 inductive ListNat where
-  | nil
+  | nil : ListNat
   | cons : Nat → ListNat → ListNat
-  deriving Repr
+deriving Repr
+
+open ListNat
 
 -- Pt 1: Recognizing
 
-
-open ListNat -- Easier to write ListNat things
+/- open ListNat -- Easier to write ListNat things -/
 
 #check nil -- With open command
 #check ListNat.nil -- Without "open ListNat" command
-#check cons 0 nil
+#check cons O nil
 #eval nil -- deriving Repr
-
-
-
-
-
-
-
 
 -- Pt 2: Defining operations
 
 def length : ListNat → Nat
-  | nil => 0
-  | cons _ l => length l + 1
+  | nil => O
+  | cons _ l => S (length l)
 
 #check length nil -- Judgement
 #eval length nil -- Evaluation (?)
-#eval length cons 0 nil -- Fix it
+#eval length (cons O nil) -- Fix it
 
 def greatest : ListNat → Nat
-  | nil => 0
-  | cons n l => if true then 25 else 07
+  | nil => O
+  | cons n l => max n (cons l)
 
 #eval greatest nil
 #eval greatest (cons 4 (cons 20 (cons 10 nil)))

@@ -1,4 +1,4 @@
-import FMCnLean.Lv1
+import FMCnLean.Rec.IndGame.Lv1
 -- Se teu outro arquivo compilou,
 -- talvez tu precise usar Ctrl + Shift + P : Restart File
 
@@ -115,25 +115,27 @@ def isOdd : Nat → Bool
 
 -- (<)
 def isLst : Nat → Nat → Bool
-  | O, O => F
-  | O, _ => F
-  | _, O => T
-  | S n, S m => isLst m n
+  | O, _ => T
+  | _, O => F
+  | S n, S m => isLst n m
 
 #eval isLst (S O) (S (S O))
 #eval isLst (S (S (S O))) (S O)
 
 -- (==)
 def isEq : Nat → Nat → Bool
-  | n n => T
-  | _ _ => F
+  | O, O => T
+  | (S n), (S m) => isEq n m
+  | _, _ => F
 
 #eval isEq O (S (S O))
 #eval isEq (S O) (S O)
 
 -- (>)
-def isGt : α → α
-  | _ => sorry
+def isGt : Nat → Nat → Bool
+  | O, _ => F
+  | _, O => T
+  | S n, S m => isGt n m
 
 #eval isGt O (S (S O))
 #eval isGt (S (S O)) (S O)
@@ -142,27 +144,27 @@ def isGt : α → α
 
 
 theorem ⁻/-nome-/ :
-  ∃(e : Bool), ∀(b : Bool), (land b e = b) ∧ (land e b = b) :=
+  ∃ (e : Bool), ∀ (b : Bool), (land b e = b) ∧ (land e b = b) :=
 by
   sorry
 
 
 theorem /-nome-/ :
-  ∃(e : Bool), ∀(b : Bool), (lor b e = b) ∧ (lor e b = b) :=
+  ∃ (e : Bool), ∀ (b : Bool), (lor b e = b) ∧ (lor e b = b) :=
 by
   sorry
 
 theorem /-nome-/ :
-   ∀(b : Bool), lneg (lneg b) = b :=
+   ∀ (b : Bool), lneg (lneg b) = b :=
 by
   sorry
 
 theorem /-nome-/ :
-  ∀(n : Nat), isLt O n = T ∨ isEq O n :=
+  ∀ (n : Nat), isLt O n = T ∨ isEq O n :=
 by
   sorry
 
 theorem /-nome-/ :
-∀(n : Nat), isEven n = lneg (isOdd n) :=
+  ∀ (n : Nat), isEven n = lneg (isOdd n) :=
 by
   sorry
