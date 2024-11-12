@@ -45,39 +45,47 @@ variable {Z : Type u} [Integer Z]
 
 -------------------_Theorems_------------------
 
-theorem ZA_IdL : ∀(a : Z), O + a = a :=
+theorem ZA_IdL : ∀ (a : Z), O + a = a :=
 by
   intro a
   rw [ZA_Com zero a]
   rw [ZA_IdR a]
 
 -- Digite "\fo + <keyb tab> para ∀"
-theorem ZA_InvL : (??) :=
-by sorry
+theorem ZA_InvL : ∀ (a : Z), (-a) + a = O :=
+by
+  intro a
+  rw [ZA_Com (-a) a, ZA_InvR a]
 
-theorem ZM-IdL : (??) :=
-by sorry
+theorem ZM_IdL : ∀ (a : Z), l * a = a :=
+by
+  intro a
+  rw [ZM_Com l a, ZM_IdR]
 
-theorem Z-DistL : (??) :=
+theorem Z_DistL : ∀ (d a b : Z), d * (a+b) = (d*a) + (d*b) :=
+by
+  intro d a b
+  rw [ZM_Com d (a+b), Z_DistR, ZM_Com d a, ZM_Com d b]
+
+-- nomeie
+theorem name1 : ∀ (a b c : Z), a + b = c ↔ a = c - b :=
+by
+  intro a b c
+  
+
+-- nomeie
+theorem name2 : ∀ (a b c : Z), a + b = c ↔ b = c - a :=
 by sorry
 
 -- nomeie
-theorem name1 : ∀(a b c : Z), a + b = c ↔ a = c - b :=
-by sorry
-
--- nomeie
-theorem name2 : ∀(a b c : Z), a + b = c ↔ b = c - a :=
-by sorry
-
--- nomeie
-theorem name3 : ∀(a b : Z), a = b ↔ a - b = O :=
+theorem name3 : ∀ (a b : Z), a = b ↔ a - b = O :=
 by sorry
 
 
-theorem ZA-CanR : (??) :=
+theorem ZA_CanR : (??) :=
 by sorry
 
-theorem ZA-CanL : (??) :=
+theorem ZA_CanL : (??) :=
 by sorry
 
 
