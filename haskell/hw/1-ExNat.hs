@@ -17,6 +17,7 @@ import Prelude
     , error
     , otherwise
     )
+import GHC.TypeError (ErrorMessage(Text))
 
 -- Define evenerything that is undefined,
 -- without using standard Haskell functions.
@@ -45,6 +46,8 @@ five = S four
 six = S five
 seven = S six
 eight = S seven
+nine = S eight
+ten = S nine
     -- zero  should be shown as O
     -- three should be shown as SSSO
 
@@ -130,7 +133,7 @@ odd (S (S n)) = odd n
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
-(<%>)  = undefined
+(<%>) = undefined
 
 -- divides
 -- (<|>) :: Nat -> Nat -> Bool
@@ -156,11 +159,12 @@ factorial (S n) = (<+>) (S n) (factorial n)
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
-sg = undefined
+sg O = 0
+sg _ = 1
 
-ite :: Bool -> a -> a -> a
-ite False _ m = m
-ite True n _ = n
+ifte :: Bool -> a -> a -> a
+ifte False _ m = m
+ifte True n _ = n
 
 -- lo b a is the floor of the logarithm base b of a
 -- lo :: Nat -> Nat -> Nat
@@ -175,29 +179,27 @@ ite True n _ = n
 -- Do NOT use the following functions in the definitions above!
 
 toNat :: Integral a => a -> Nat
--- toNat = undefined
 toNat x
     | x <= 0 = O
     | otherwise = S (toNat (x-1))
 
 
 fromNat :: Integral a => Nat -> a
--- fromNat = undefined
-fromNat n
-    | n == O = 0
-    | otherwise = 1 + fromNat ((<->) n (S O))
-
+fromNat O = 0
+fromNat (S n) = 1 + fromNat n
+-- OR
+-- fromNat n
+--     | n == O = 0
+--     | otherwise = 1 + fromNat ((<->) n (S O))
 
 -- Voilá: we can now easily make Nat an instance of Num.
 instance Num Nat where
-
     (+) = (<+>)
     (*) = (<*>)
     (-) = (<->)
     abs n = n
     signum = sg
     fromInteger x
-      | x < 0     = undefined
-      | x == 0    = undefined
-      | otherwise = undefined
+      | x <= 0     = O
+      | otherwise = toNat x
 

@@ -1,0 +1,75 @@
+1. Demonstre que: bnot é uma involução: bnot . bnot = id
+    { Done
+        bnot :: Bool -> Bool
+        bnot True -> False
+        bnot False -> True
+
+        bnot . bnot = id
+        (∀ a)[ bnot (bnot a) = id a ]
+        Caso True:
+            Calc: bnot (bnot False)
+                = [bnot.2]
+                bnot True
+                = [bnot.1]
+                False.
+
+                id False
+                = [id]
+                False.
+        Caso False:
+            Calc: Similar.
+    }
+2. Complete as igualdades e demonstre:
+    take n xs ++ drop n xs = xs
+    {
+    Seja n : Int.
+    Indução.
+    Base: take n [] ++ drop n [] = []
+    Calc: Take n [] ++ drop n []
+        = [take.1] [drop.1]
+        [] ++ []
+        = [concat.1]
+        [].
+    
+    P.I: (∀ ks)[ take n ks ++ drop n ks = ks ⇒  (∀ k) take n (k:ks) ++ drop n (k:ks) = (k:ks)]
+    Seja ks tq. take n ks ++ drop n ks = ks.
+    Seja k.
+    Calc: take n (k:ks) ++ drop n (k:ks)
+        = ???????????????????????????
+
+    
+    }
+    take m . drop n  =
+
+    take m . take n  =
+    drop m . drop n  =
+    map g . map f  =
+
+    sum . map double  =
+    sum . map sum  =
+    sum . sort  =
+    map f . reverse  =
+    concat . map concat  =
+    filter p . map f  =
+
+ 3. Quais das seguintes são válidas e quais não?
+    map f . take n  =!=  take n . map f
+    map f . reverse  ===  reverse . map f
+    map f . sort  ===  sort . map f
+    filter (p . g)  =?=  map ginvl . filter p . map g
+    reverse . concat  =?=  concat . reverse . map reverse
+    filter p . concat  =?=  concat . map (filter p)
+    (suponha aqui que a ginvl é um inverso esquerdo da g, ou seja: glinv . g = id
+
+4. Complete as igualdades e investigue:
+    length . reverse  = 
+    reverse . reverse  = 
+    (xs ++ ys) ++ zs  = 
+    map id  =  
+    map (f . g)  =  
+    length (xs ++ ys)  = 
+    sum (xs ++ ys)  = 
+    product (xs ++ ys)  = 
+    concat (xss ++ yss)  = 
+    filter p (xs ++ ys)  = 
+    map f (xs ++ ys)  = 

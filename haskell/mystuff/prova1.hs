@@ -144,14 +144,19 @@ zipWith' = undefined
 ---------------- D (21 pts) ----------------
 
 -- D1: define ArEx
-data ArEx = Atom Integer
-          | Plus ArEx ArEx
+data ArEx = Atom  Integer
+          | Plus  ArEx ArEx
           | Times ArEx ArEx
-          | Neg ArEx
+          | Neg   ArEx
 
 -- D2: define eval
-eval :: ArEx -> Int
-eval = undefined
+eval :: ArEx -> Integer
+eval (Atom x) = x
+eval x = case x of 
+            Plus t u -> (+) (eval t) (eval u)
+            Times t u -> (*) (eval t) (eval u)
+            Neg t -> negate (eval t)
+
 
 -- D3: define height
 height :: ArEx -> Nat

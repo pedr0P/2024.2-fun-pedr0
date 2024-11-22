@@ -110,15 +110,25 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 -- minimum :: Ord a => [a] -> a
+-- minimum (x:xs) = min x (minimum xs)
+
 -- maximum :: Ord a => [a] -> a
 
--- take
--- drop
+take :: Integral i => i -> [i] -> [i]
+take x [] = []
+take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+
+drop :: Integral i => i -> [i] -> [i]
+drop x [] = []
+drop x (b:bs) = if x == 0 then [] else b:drop (x-1) bs
 
 -- takeWhile
 -- dropWhile
 
--- tails
+tails :: [a] -> [a]
+tails [] = []
+tails (x:xs) = xs
+
 -- init
 -- inits
 
@@ -132,15 +142,20 @@ infixl 5 +++
 
 -- concat
 
--- elem using the funciton 'any' above
+-- elem using the function 'any' above
 
 -- elem': same as elem but elementary definition
 -- (without using other functions except (==))
 
 -- (!!)
 
--- filter
--- map
+filter :: (a -> Bool) -> [a] -> [a]
+filter p [] = []
+filter p (a:as) = if p a then a:filter p as else filter p as
+
+map :: (a -> b) -> [a] -> [b]
+map f [] = []
+map f (a:as) = (f a):(map f as)
 
 -- cycle
 -- repeat
@@ -163,10 +178,10 @@ infixl 5 +++
 -- [1,3,5,2,4,6]
 -- [1,3,5] [2,4,6]
 
--- break
--- break :: (a -> Bool) -> [a] -> ([a], [a])
--- break _ [] = ([], [])
--- break p (x::xs)
+break :: Integral i => i -> [i] -> [i]
+break _ [] = []
+break 0 _ = []
+break x (b:bs) = if x == b then [b] else b:break x bs
 
 -- lines
 -- words
