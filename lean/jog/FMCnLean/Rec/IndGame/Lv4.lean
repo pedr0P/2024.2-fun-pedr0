@@ -20,9 +20,9 @@ section
 end
 
 -- Algumas funções
-def length : List α → Nat
+def len : List α → Nat
   | Nil     => 0
-  | _ :: xs => 1 + (length xs)
+  | _ :: xs => 1 + (len xs)
 
 def concat : List α → List α → List α
   | Nil, ys     => ys
@@ -35,13 +35,15 @@ def concat : List α → List α → List α
 
 -- Algumas relações
 def Prefix (l₁ l₂ : List α) : Prop :=
-  sorry
+  /- ∃ (ks : List α), len ks + len l₁ = len l₂ → l₂ = (ks ++ l₁) -/
+  ∃ (ks : List α), l₂ = (ks ++ l₁)
 
 def Suffix (l₁ l₂ : List α) : Prop :=
-  sorry
+  /- ∃ (ks : List α), len ks + len l₁ = len l₂ → l₂ = (l₁ ++ ks) -/
+  ∃ (ks : List α), l₂ = (l₁ ++ ks)
 
 def Segment (l₁ l₂ : List α) : Prop :=
-  sorry
+  ∃ (ks : List α)(qs : List α), l₂ = ((ks ++ l₁)++qs)
 
 def Sublist (l₁ l₂ : List α) : Prop :=
   sorry
@@ -59,17 +61,21 @@ variable (x y z : α)
 namespace Prefix
 
   theorem refl : Prefix l l := by
-    sorry
+    rw [Prefix]
+    exists Nil
 
-  theorem trans : Prefix l r ∧ Prefix r s → Prefix l s := by
-    sorry
+  theorem trans : Prefix l r ∧  Prefix r s → Prefix l s := by
+    rw [Prefix, Prefix, Prefix]
+    intro ha
+    have hl := ha.left
+    have hr := ha.right
 
-  theorem antisymm : Prefix l r ∧ Prefix r l → l = r := by
+  theorem antisymm : Prefix l r ∧  Prefix r l → l = r := by
     sorry
 
 -- Ja te lembro que podes definir uma notacao infixa e ajustar
 -- nos teoremas abaixo, desse modoe, por ex:
-  infixr:50 " << " => Prefix
+  infixr:49 " << " => Prefix
 
   theorem cons_preserva_prefix : xs << ys ↔ (x :: xs) << (x :: ys) := by
     sorry
