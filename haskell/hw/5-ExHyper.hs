@@ -43,10 +43,10 @@ exp n (S m) = mul (exp n m) n
 -- to define each of those functions:
 
 add :: Nat -> Nat -> Nat
-add = hyper 0
+add = hyper O
 
 mul :: Nat -> Nat -> Nat
-mul = hyper 1
+mul = hyper (S O)
 
 exp :: Nat -> Nat -> Nat
 exp = hyper 2
@@ -54,7 +54,12 @@ exp = hyper 2
 -- hyper n should return the n'th operation in the sequence:
 -- (..?..), add, mul, exp, ...?
 
-hyper :: Integral i => i -> (Nat -> Nat -> Nat)
-hyper = undefined
 
-
+hyper :: Nat -> (Nat -> Nat -> Nat)
+hyper O = \x -> \y -> S y
+hyper (S n) = \x -> \y -> case y of
+                            (S y') -> hyper n x (hyper (S n) x y')
+                            _ -> case n of
+                                  O -> x
+                                  (S O) -> O
+                                  _ -> (S O)

@@ -1,0 +1,463 @@
+{-# LANGUAGE GADTs #-}
+
+-- Base --
+
+module Bighwfile where
+
+import Prelude
+    ( Show(..)
+    , Eq(..)
+    , Ord(..)
+    , Num(..)
+    , Integral(..)
+    , not
+    -- , (&&)
+    -- , (||)
+    -- , (++)
+    , ($)
+    , (.)
+    , undefined
+    , error
+    , otherwise
+
+    , Enum(..)
+
+    , Int
+    , Char
+    -- TODO
+    , flip
+    )
+import GHC.TypeError (ErrorMessage(Text))
+import qualified Prelude   as P
+import qualified Data.List as L
+import qualified Data.Char as C
+
+data Nat where
+  O :: Nat
+  S :: Nat -> Nat
+
+data Bool = False | True
+
+instance Show Bool where
+    show True = "True"
+    show False = "False"
+
+instance Enum Bool where
+    toEnum 1 = True
+    toEnum 2 = False
+    fromEnum True = 1
+    fromEnum False = 0
+
+-- ExNat
+
+zero, one, two, three, four, five :: Nat
+zero = O
+one = S zero
+two = S one
+three = S two
+four = S three
+five = S four
+six = S five
+seven = S six
+eight = S seven
+nine = S eight
+ten = S nine
+
+----------------------------------------------------------------
+-- typeclass implementations
+----------------------------------------------------------------
+
+instance Show Nat where
+    -- show = undefined
+    show O = "O"
+    show (S n) = "S" ++ show n
+
+instance Eq Nat where
+    (==) (S n) (S m) = (==) n m
+    (==) O O = True 
+    (==) n m = False
+
+
+instance Ord Nat where
+    (<=) O _ = True
+    (<=) _ O = False
+    (<=) (S n) (S m) = (<=) n m
+
+    -- Ord does not REQUIRE defining min and max.
+    -- However, you should define them WITHOUT using (<=).
+    -- Both are binary functions: max m n = ..., etc.
+
+    min _ O = O 
+    min O _ = O
+    min (S n) (S m) = S (min n m)
+
+    max O m = m
+    max n O = n
+    max (S n) (S m) = S (max n m)
+
+----------------------------------------------------------------
+-- internalized predicates
+----------------------------------------------------------------
+
+isZero :: Nat -> Bool
+isZero O = True
+
+-- pred is the predecessor but we define zero's to be zero
+pred :: Nat -> Nat
+pred (S n) = n
+
+even :: Nat -> Bool
+even O = True
+even (S O) = False
+even (S (S n)) = even n
+
+odd :: Nat -> Bool
+odd O = False 
+odd (S O) = True
+odd (S (S n)) = odd n
+
+----------------------------------------------------------------
+-- operations
+----------------------------------------------------------------
+
+-- addition
+(<+>) :: Nat -> Nat -> Nat
+(<+>) n O = n
+(<+>) n (S m) = S ((<+>) n m)
+
+-- Dotminus or Monus operator
+-- (also: proper subtraction, arithmetic subtraction, ...).
+-- Behaves like subtraction, but returns a 0 where "regular"
+-- subtraction returns negative number.
+(<->) :: Nat -> Nat -> Nat
+(<->) n O = n
+(<->) O _ = O
+(<->) (S n) (S m) = (<->) n m
+
+-- Multiplication
+(<*>) :: Nat -> Nat -> Nat
+(<*>) _ O = O
+(<*>) n (S m) = (<+>) n ((<*>) n m)
+
+-- Exponentiation
+(<^>) :: Nat -> Nat -> Nat
+(<^>) _ O = S O
+(<^>) n (S m) = (<*>) n ((<^>) n m)
+
+-- Quotient
+(</>) :: Nat -> Nat -> Nat
+(</>) n O = error "Division by zero"
+-- (</>) (S n) (S m) 
+
+-- Remainder
+(<%>) :: Nat -> Nat -> Nat
+(<%>) = undefined
+
+-- Divides
+-- (<|>) :: Nat -> Nat -> Bool
+-- (<|>) O _ = error "Divisão por 0"
+-- (<|>) n m = error "Divisão por 0"
+
+
+-- The real minus operator:
+-- x `absDiff` y = |x - y|
+absDiff :: Nat -> Nat -> Nat
+absDiff n 0 = n;
+absDiff 0 n = n;
+absDiff (S n) (S m) = S (absDiff n m)
+
+-- 3 - 1
+-- S ( 2 - 0 )
+
+(|-|) = absDiff
+
+factorial :: Nat -> Nat
+factorial O = S O
+factorial (S n) = (<+>) (S n) (factorial n)
+
+-- Signum of a number (-1, 0, or 1)
+sg :: Nat -> Nat
+sg O = 0
+sg _ = 1
+
+ifte :: Bool -> a -> a -> a
+ifte False _ m = m
+ifte True n _ = n
+
+-- lo b a is the floor of the logarithm base b of a
+-- lo :: Nat -> Nat -> Nat
+-- lo O O = O
+-- lo _ O = error "Impossible"
+
+----------------------------------------------------------------
+-- Num & Integral fun
+----------------------------------------------------------------
+
+-- For the following functions we need Num(..).
+-- Do NOT use the following functions in the definitions above!
+
+toNat :: Integral a => a -> Nat
+toNat x
+    | x <= 0 = O
+    | otherwise = S (toNat (x-1))
+
+
+fromNat :: Integral a => Nat -> a
+fromNat O = 0
+fromNat (S n) = 1 + fromNat n
+-- OR
+-- fromNat n
+--     | n == O = 0
+--     | otherwise = 1 + fromNat ((<->) n (S O))
+
+-- Voilá: we can now easily make Nat an instance of Num.
+instance Num Nat where
+    (+) = (<+>)
+    (*) = (<*>)
+    (-) = (<->)
+    abs n = n
+    signum = sg
+    fromInteger x
+      | x <= 0     = O
+      | otherwise = toNat x
+
+-- ExBool
+-- conjunction (AND)
+(&&) :: Bool -> Bool -> Bool
+(&&) True True = True
+(&&) False _ = False
+(&&) _ False = False
+
+infixr 3 &&
+
+-- disjunction (OR)
+(||) :: Bool -> Bool -> Bool
+(||) True _ = True
+(||) _ True = True
+(||) False False = False
+
+infixr 2 ||
+
+-- NAND (Sheffer stroke)
+(/|\) :: Bool -> Bool -> Bool
+(/|\) False _ = True
+(/|\) _ False = True
+(/|\) True True = False
+
+infixr 2 /|\
+
+-- NOR (aka: Peirce arrow or Quine dagger)
+(\|/) :: Bool -> Bool -> Bool
+(\|/) False False = True
+(\|/) True _ = False
+(\|/) _ True = False
+
+infixr 2 \|/
+
+-- XOR (exclusive disjunction)
+(<=/=>) :: Bool -> Bool -> Bool
+(<=/=>) True True = False
+(<=/=>) True _ = True
+(<=/=>) _ True = True
+(<=/=>) False False = False
+
+infixr 2 <=/=>
+
+-- boolean negation
+not :: Bool -> Bool
+not True = False
+not False = True
+
+-- if-then-else expression
+-- if_Then_Else :: Bool -> a -> a -> a
+-- if_ThenElse True n m = n
+-- if_ThenElse False n m = m
+
+-- logical "implies"
+(==>) :: Bool -> Bool -> Bool
+(==>) True True = True
+(==>) False _ = True
+(==>) True False = False
+
+infixr 1 ==>
+
+-- logical "implied by"
+(<==) :: Bool -> Bool -> Bool
+(<==) True True = True
+(<==) _ False = True
+(<==) False True = False
+
+infixl 1 <==
+
+-- logical equivalence
+(<=>) :: Bool -> Bool -> Bool
+(<=>) n m = (n ==> m) && (n <== m)
+
+infixr 1 <=>
+
+-- ExList
+
+head :: [a] -> a
+head (x:xs) = x
+
+tail :: [a] -> [a]
+tail (x:xs) = xs
+
+null :: [a] -> Bool
+null [] = True
+null _ = False
+
+length :: Integral i => [a] -> i
+length [] = 0
+length (x:xs) = 1 + (length xs)
+
+sum :: Num a => [a] -> a
+sum [] = 0
+sum (x:xs) = x + sum xs
+
+product :: Num a => [a] -> a
+product [] = 1
+product (x:xs) = x * product xs
+
+reverse :: [a] -> [a]
+reverse [n] = [n]
+reverse (x:xs) = reverse xs<:x
+
+(++) :: [a] -> [a] -> [a]
+(++) [] xs = xs
+(++) (x:xs) ys = x:(++) xs ys
+
+-- right-associative for performance!
+-- (what?!)
+infixr 5 ++
+
+-- (snoc is cons written backwards)
+snoc :: a -> [a] -> [a]
+snoc x [] = [x]
+snoc x xs = x:xs
+
+-- TODO
+(<:) :: [a] -> a -> [a]
+(<:) = flip snoc
+
+-- different implementation of (++)
+(+++) :: [a] -> [a] -> [a]
+xs +++ []     = xs
+xs +++ [y]    = xs <: y
+xs +++ (y:ys) = (xs +++ [y]) +++ ys
+
+-- left-associative for performance!
+-- (hmm??)
+infixl 5 +++
+
+-- minimum :: Ord a => [a] -> a
+-- minimum (x:xs) = min x (minimum xs)
+
+-- maximum :: Ord a => [a] -> a
+
+take :: Integral i => i -> [i] -> [i]
+take x [] = []
+take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+
+drop :: Integral i => i -> [i] -> [i]
+drop x [] = []
+drop x (b:bs) = if x == 0 then [] else b:drop (x-1) bs
+
+takeWhile :: (a -> Bool) -> [a] -> [a]
+takeWhile p [] = []
+-- takeWhile p (x:xs) = if p x then x:takeWhile p xs else []
+takeWhile p (x:xs)
+    | p x == True = x:takeWhile p xs
+    | otherwise = []
+
+-- dropWhile
+
+tails :: [a] -> [a]
+tails [] = []
+tails (x:xs) = xs
+
+init :: [a] -> [a]
+init [] = error "Don't do that!"
+init (_:[]) = []
+init (x:xs) = x:init xs
+
+-- inits
+
+-- subsequences
+
+-- any
+-- all
+
+-- and
+-- or
+
+-- concat
+
+-- elem using the function 'any' above
+
+-- elem': same as elem but elementary definition
+-- (without using other functions except (==))
+
+-- (!!)
+
+filter :: (a -> Bool) -> [a] -> [a]
+filter p [] = []
+-- filter p (a:as) = if p a then a:filter p as else filter p as
+filter p (a:as)
+ | p a == True = a:filter p as
+ | otherwise = filter p as
+        
+
+map :: (a -> b) -> [a] -> [b]
+map f [] = []
+map f (a:as) = (f a):(map f as)
+
+-- cycle
+-- repeat
+-- replicate
+
+-- isPrefixOf
+-- isInfixOf
+-- isSuffixOf
+
+-- zip
+-- zipWith
+
+-- intercalate
+-- nub
+
+-- splitAt
+-- what is the problem with the following?:
+-- splitAt n xs  =  (take n xs, drop n xs)
+
+-- [1,3,5,2,4,6]
+-- [1,3,5] [2,4,6]
+
+break :: Integral i => i -> [i] -> [i]
+break _ [] = []
+break 0 _ = []
+break x (b:bs) = if x == b then [b] else b:break x bs
+
+-- lines
+-- words
+-- unlines
+-- unwords
+
+-- transpose
+
+-- checks if the letters of a phrase form a palindrome (see below for examples)
+-- palindrome :: String -> Bool
+-- palindrome = undefined
+
+{-
+
+Examples of palindromes:
+
+"Madam, I'm Adam"
+"Step on no pets."
+"Mr. Owl ate my metal worm."
+"Was it a car or a cat I saw?"
+"Doc, note I dissent.  A fast never prevents a fatness.  I diet on cod."
+
+-}
+

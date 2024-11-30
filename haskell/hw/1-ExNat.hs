@@ -19,7 +19,7 @@ import Prelude
     )
 import GHC.TypeError (ErrorMessage(Text))
 
--- Define evenerything that is undefined,
+-- Define everything that is undefined,
 -- without using standard Haskell functions.
 -- (Hint: recursion is your friend!)
 
@@ -32,7 +32,6 @@ data Nat where
 ----------------------------------------------------------------
 
 instance Show Nat where
-    -- show = undefined
     show O = "O"
     show (S n) = "S" ++ show n
 
@@ -48,8 +47,6 @@ seven = S six
 eight = S seven
 nine = S eight
 ten = S nine
-    -- zero  should be shown as O
-    -- three should be shown as SSSO
 
 instance Eq Nat where
 
@@ -138,7 +135,10 @@ odd (S (S n)) = odd n
 -- divides
 -- (<|>) :: Nat -> Nat -> Bool
 -- (<|>) O _ = error "Divisão por 0"
--- (<|>) n m = error "Divisão por 0"
+-- (<|>) n (S m)
+--     | n > m  = False
+--     | n == m = True
+--     | n < m = (<|>) n m
 
 
 -- x `absDiff` y = |x - y|

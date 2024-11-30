@@ -10,6 +10,7 @@ import Prelude
     , flip , curry , uncurry
     , otherwise , error , undefined
     )
+
 import qualified Prelude   as P
 import qualified Data.List as L
 import qualified Data.Char as C
@@ -122,14 +123,20 @@ drop :: Integral i => i -> [i] -> [i]
 drop x [] = []
 drop x (b:bs) = if x == 0 then [] else b:drop (x-1) bs
 
--- takeWhile
+takeWhile :: (a -> Bool) -> [a] -> [a]
+takeWhile p (x:xs) = if p x then x:takeWhile p xs else []
+takeWhile p [] = []
 -- dropWhile
 
 tails :: [a] -> [a]
 tails [] = []
 tails (x:xs) = xs
 
--- init
+init :: [a] -> [a]
+init [] = error "Don't do that!"
+init (_:[]) = []
+init (x:xs) = x:init xs
+
 -- inits
 
 -- subsequences
