@@ -144,8 +144,8 @@ odd (S (S n)) = odd n
 -- x `absDiff` y = |x - y|
 -- (Careful here: this - is the real minus operator!)
 absDiff :: Nat -> Nat -> Nat
-absDiff n 0 = n;
-absDiff 0 n = n;
+absDiff n 0 = n
+absDiff 0 n = n
 absDiff (S n) (S m) = S (absDiff n m)
 
 -- 3 - 1
@@ -182,7 +182,6 @@ toNat :: Integral a => a -> Nat
 toNat x
     | x <= 0 = O
     | otherwise = S (toNat (x-1))
-
 
 fromNat :: Integral a => Nat -> a
 fromNat O = 0

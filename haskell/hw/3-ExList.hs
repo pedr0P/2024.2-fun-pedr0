@@ -86,7 +86,6 @@ reverse (x:xs) = reverse xs<:x
 (++) :: [a] -> [a] -> [a]
 (++) [] xs = xs
 (++) (x:xs) ys = x:(++) xs ys
-
 -- right-associative for performance!
 -- (what?!)
 infixr 5 ++
@@ -104,7 +103,6 @@ snoc x xs = x:xs
 xs +++ []     = xs
 xs +++ [y]    = xs <: y
 xs +++ (y:ys) = (xs +++ [y]) +++ ys
-
 -- left-associative for performance!
 -- (hmm??)
 infixl 5 +++
@@ -114,16 +112,32 @@ infixl 5 +++
 
 -- maximum :: Ord a => [a] -> a
 
-take :: Integral i => i -> [i] -> [i]
-take x [] = []
-take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+-- take :: Integral i => i -> [i] -> [i]
+-- take x [] = []
+-- take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+
+-- take :: Integral i => i -> [i] -> [i]
 
 drop :: Integral i => i -> [i] -> [i]
 drop x [] = []
 drop x (b:bs) = if x == 0 then [] else b:drop (x-1) bs
 
--- takeWhile
--- dropWhile
+
+
+-- takeWhile :: (a -> Bool) -> [a] -> [a]
+-- takeWhile p [] = []
+-- takewhile p (x:xs) = if p x then x:takeWhile p xs else []
+-- takeWhile p (x:xs) = case p x of
+--                         False -> []
+--                         _     -> x:takeWhile p xs
+                
+-- dropWhile :: (a -> Bool) -> [a] -> [a]
+-- dropwhile p [] = []
+-- dropwhile p (x:xs) = if p x then [] else x:dropWhile p xs
+-- dropwhile p (x:xs) = case p x of
+--                         False -> x:dropWhile p xs
+--                         _     -> []
+                    
 
 tails :: [a] -> [a]
 tails [] = []
