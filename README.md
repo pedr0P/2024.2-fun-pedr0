@@ -1,11 +1,11 @@
 # Functional Programming 2024.2, UFRN
 
-Student template repo.
-(Students should replace this text.)
+Why are you looking here? Suspicious.
 
 ## Structure
 
 * `agda/`:    Agda files/projects
+* `beecrowd/`:    Agda files/projects
 * `haskell/`: Haskell files/projects
 * `lean/`:    Lean files/projects
 * `notes/`:   Student notes
