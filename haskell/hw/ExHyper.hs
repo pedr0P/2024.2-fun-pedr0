@@ -62,4 +62,4 @@ hyper (S n) = \x -> \y -> case y of
                             _ -> case n of
                                   O -> x
                                   (S O) -> O
-                                  _ -> (S O)
+                                  _ -> S O

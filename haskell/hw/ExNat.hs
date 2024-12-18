@@ -133,12 +133,14 @@ odd (S (S n)) = odd n
 (<%>) = undefined
 
 -- divides
+-- 2 | 4 = True
+-- 3 | 4 = False
 -- (<|>) :: Nat -> Nat -> Bool
--- (<|>) O _ = error "Divisão por 0"
--- (<|>) n (S m)
---     | n > m  = False
---     | n == m = True
---     | n < m = (<|>) n m
+-- (<|>) O _ = False
+-- (<|>) _ O = True
+-- (<|>) (S O) _ = True
+-- (<|>) _ (S O) = True
+-- (<|>) (S (S n)) (S (S m)) = (<|>) 
 
 
 -- x `absDiff` y = |x - y|

@@ -87,7 +87,6 @@ reverse (x:xs) = reverse xs<:x
 (++) :: [a] -> [a] -> [a]
 (++) [] xs = xs
 (++) (x:xs) ys = x:(++) xs ys
-
 -- right-associative for performance!
 -- (what?!)
 infixr 5 ++
@@ -111,22 +110,39 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 -- minimum :: Ord a => [a] -> a
--- minimum (x:xs) = min x (minimum xs)
+-- minimum xs = fold min 0 (xs)
 
 -- maximum :: Ord a => [a] -> a
 
 take :: Integral i => i -> [i] -> [i]
 take x [] = []
-take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+take x (y:ys) =
+  case x of
+    0 -> []
+    _ -> y:take (x-1) ys
+
+tip :: Integral i => [i] -> i
+tip [] = 0
+tip (x:xs) =
+  case xs of
+    [] -> x
+    _  -> tip xs
 
 drop :: Integral i => i -> [i] -> [i]
 drop x [] = []
-drop x (b:bs) = if x == 0 then [] else b:drop (x-1) bs
+drop x (y:ys)
+  | length ys == x = ys
+  | otherwise = drop x ys
+
+uiui = [1, 2, 3, 4]
+pares = [2, 4, 6, 8]
+impares = [1, 3, 5, 7]
 
 takeWhile :: (a -> Bool) -> [a] -> [a]
 takeWhile p (x:xs) = if p x then x:takeWhile p xs else []
 takeWhile p [] = []
--- dropWhile
+
+-- dropWhile :: (a -> Bool) -> [a] -> [a]
 
 tails :: [a] -> [a]
 tails [] = []
@@ -162,7 +178,7 @@ filter p (a:as) = if p a then a:filter p as else filter p as
 
 map :: (a -> b) -> [a] -> [b]
 map f [] = []
-map f (a:as) = (f a):(map f as)
+map f (a:as) = f a:map f as
 
 -- cycle
 -- repeat
