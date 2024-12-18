@@ -104,7 +104,6 @@ snoc x xs = x:xs
 xs +++ []     = xs
 xs +++ [y]    = xs <: y
 xs +++ (y:ys) = (xs +++ [y]) +++ ys
-
 -- left-associative for performance!
 -- (hmm??)
 infixl 5 +++
@@ -114,6 +113,7 @@ infixl 5 +++
 
 -- maximum :: Ord a => [a] -> a
 
+<<<<<<< HEAD:haskell/hw/ExList.hs
 take :: Integral i => i -> [i] -> [i]
 take x [] = []
 take x (y:ys) =
@@ -127,6 +127,13 @@ tip (x:xs) =
   case xs of
     [] -> x
     _  -> tip xs
+=======
+-- take :: Integral i => i -> [i] -> [i]
+-- take x [] = []
+-- take x (b:bs) = if x == 0 then [] else b:take (x-1) bs
+
+-- take :: Integral i => i -> [i] -> [i]
+>>>>>>> 656294fa2c6bd232d76f5ebec1540971d2197b55:haskell/hw/3-ExList.hs
 
 drop :: Integral i => i -> [i] -> [i]
 drop x [] = []
@@ -134,6 +141,7 @@ drop x (y:ys)
   | length ys == x = ys
   | otherwise = drop x ys
 
+<<<<<<< HEAD:haskell/hw/ExList.hs
 uiui = [1, 2, 3, 4]
 pares = [2, 4, 6, 8]
 impares = [1, 3, 5, 7]
@@ -143,6 +151,24 @@ takeWhile p (x:xs) = if p x then x:takeWhile p xs else []
 takeWhile p [] = []
 
 -- dropWhile :: (a -> Bool) -> [a] -> [a]
+=======
+
+
+-- takeWhile :: (a -> Bool) -> [a] -> [a]
+-- takeWhile p [] = []
+-- takewhile p (x:xs) = if p x then x:takeWhile p xs else []
+-- takeWhile p (x:xs) = case p x of
+--                         False -> []
+--                         _     -> x:takeWhile p xs
+                
+-- dropWhile :: (a -> Bool) -> [a] -> [a]
+-- dropwhile p [] = []
+-- dropwhile p (x:xs) = if p x then [] else x:dropWhile p xs
+-- dropwhile p (x:xs) = case p x of
+--                         False -> x:dropWhile p xs
+--                         _     -> []
+                    
+>>>>>>> 656294fa2c6bd232d76f5ebec1540971d2197b55:haskell/hw/3-ExList.hs
 
 tails :: [a] -> [a]
 tails [] = []

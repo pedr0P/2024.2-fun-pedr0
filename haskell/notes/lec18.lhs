@@ -1,0 +1,3 @@
+functor (IO : Ty → Ty)
+
+>

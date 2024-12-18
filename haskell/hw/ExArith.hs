@@ -2,7 +2,7 @@
 
 module ExArith where
 
-import Prelude (Integer, Eq(..), Show(..), (+), (*), ($))
+import Prelude (Integer, Eq(..), Show(..), (+), (*), ($), String)
 
 data ArEx = Atom Integer
           | Plus ArEx ArEx
@@ -22,6 +22,7 @@ eight = Atom 8
 nine = Atom 9
 ten = Atom 10
 
+<<<<<<< HEAD
 -- data Charo where
 --     a = Charo
 --     b = Charo
@@ -85,8 +86,22 @@ pretty :: ArEx -> String
 pretty e = case e of
             Atom x -> show x
 
+=======
+-- data String where
+--       Empty :: String
+--       Join :: Integer -> String
+
+-- instance Show 
+
+-- pretty printer
+pretty :: ArEx -> String
+pretty x = ""
+-- pretty e = case e of
+--            Atom x -> 
+>>>>>>> 656294fa2c6bd232d76f5ebec1540971d2197b55
 
 -- example expressions
+-- foo = Atom 23
 ex1 = (Atom 23) `Plus` (Atom 2)
 ex2 = (Atom 7) `Times` ((Atom 7) `Plus` ((Atom 2) `Times` (Atom 8)))
 ex3 = Times ex1 ex2

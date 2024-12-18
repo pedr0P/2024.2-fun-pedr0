@@ -19,6 +19,7 @@ import qualified Prelude as P
 --
 
 -- foldr (#) v [x1, x2, x3, x4] = (x1 # (x2 # (x3 # (x4 # v))))
+<<<<<<< HEAD
 foldr :: (a -> a -> a) -> a -> [a] -> a
 foldr _ v [] = v
 foldr f v (x:xs) = f x (foldr f v xs)
@@ -59,12 +60,47 @@ scannl f v (x:xs) = f v x:scannl f (f v x) xs
 -- scannr :: (b -> a -> b) -> b -> [a] -> [b]
 -- scannr _ _ [] = []
 -- scannr f v (x:xs) = f v x:scannr f (f v x) xs
+=======
+foldr :: undefined
+foldr = undefined
+
+-- foldl (#) v [x1, x2, x3, x4] = ((((v # x1) # x2) # x3) # x4)
+foldl :: undefined
+foldl = undefined
+
+-- foldr1 (#) [x1, x2, x3, x4] = (x1 # (x2 # (x3 # x4)))
+foldr1 :: undefined
+foldr1 = undefined
+
+-- foldl1 (#) [x1, x2, x3, x4]  = (((x1 # x2) # x3) # x4)
+foldl1 :: undefined
+foldl1 = undefined
+
+
+--
+-- define the following scans:
+-- (scans are like folds but return all intermediate calculations)
+--
+-- foldl (+) 0 [12,25,16,24] = ((((0 + 12) + 25) + 16) + 24)
+-- scanl (+) 0 [12,25,16,24] = [   0 , 12  , 37  , 53  , 77]
+--
+-- foldr (+) 0 [12,25,16,24] = (12 + (25 + (16 + (24 + 0))))
+-- scanr (+) 0 [12,25,16,24] = [77 ,  65 ,  40 ,  24 , 0   ]
+--
+
+scanl :: (b -> a -> b) -> b -> [a] -> [b]
+scanl = undefined
+
+scanr :: (a -> b -> b) -> b -> [a] -> [b]
+scanr = undefined
+>>>>>>> 656294fa2c6bd232d76f5ebec1540971d2197b55
 
 --
 -- Define all of the following functions as folds:
 --
 
 sum :: Num a => [a] -> a
+<<<<<<< HEAD
 sum (x:xs) = foldr (+) x xs
 
 product :: Num a => [a] -> a
@@ -72,6 +108,15 @@ product (x:xs) = foldr (*) x xs
 
 concat :: [[a]] -> [a]
 concat (x:xs) = foldr (++) x xs
+=======
+sum = undefined
+
+product :: Num a => [a] -> a
+product = undefined
+
+concat :: [[a]] -> [a]
+concat = undefined
+>>>>>>> 656294fa2c6bd232d76f5ebec1540971d2197b55
 
 any :: (a -> Bool) -> [a] -> Bool
 any = undefined

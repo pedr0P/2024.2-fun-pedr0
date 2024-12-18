@@ -1,0 +1,17 @@
+
+
+Struct :
+data Aluno = MkAluno {name :: String, age :: Nat, birth :: Date, CPF :: Int}
+
+Record :
+data DecAlg =
+        | zero
+        | one 
+        | two
+        | three
+        | four
+        | five
+        | six
+        | seven
+        | eight
+        | nine
